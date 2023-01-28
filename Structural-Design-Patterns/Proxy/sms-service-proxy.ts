@@ -3,7 +3,7 @@ import { SMSService } from './sms-service';
 import { Customer } from './customer';
 
 export class SMSServiceProxy {
-  private smsService!: SMSService;
+  private smsService: SMSService;
 
   private customers: Customer[] = [];
 
@@ -28,12 +28,12 @@ export class SMSServiceProxy {
 
     if (!customer) {
       this.customers.push({ id: customerId, sendCount: 1 });
-      return this.smsService!.SendSms(customerId, mobile, message);
+      return this.smsService.SendSms(customerId, mobile, message);
     }
 
-    if (customer!.sendCount >= 2) return `failure to sent message!`;
+    if (customer.sendCount >= 2) return `failure to sent message!`;
 
-    customer!.sendCount++;
-    return this.smsService!.SendSms(customerId, mobile, message);
+    customer.sendCount++;
+    return this.smsService.SendSms(customerId, mobile, message);
   }
 }
