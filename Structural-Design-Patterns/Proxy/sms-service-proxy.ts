@@ -22,15 +22,15 @@ export class SMSServiceProxy {
     mobile: string;
     message: string;
   }): string {
-    if (this.smsService === undefined)
-      this.smsService = new ConcreteSMSService();
+    if (!this.smsService) this.smsService = new ConcreteSMSService();
 
-    if (!this.findCustomer(customerId)) {
+    const customer = this.findCustomer(customerId);
+
+    if (!customer) {
       this.customers.push({ id: customerId, sendCount: 1 });
       return this.smsService!.SendSms(customerId, mobile, message);
     }
 
-    const customer = this.findCustomer(customerId);
     if (customer!.sendCount >= 2) return `failure to sent message!`;
 
     customer!.sendCount++;
